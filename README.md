@@ -1,4 +1,4 @@
-# Cursores en Oracle
+# Ejemplos de Cursores en Oracle
 
 ## Introducción
 Nos referimos a un cursor en bases de datos como una estructura de control utilizada para el recorrido y posterior procesamiento individual de las filas devueltas en una consulta. Aunque técnicamente, los cursores son fragmentos de memoria reservados para procesar los resultados de una consulta SELECT.
@@ -78,7 +78,7 @@ END;
 
 ## Crear un procedimiento almacenado que contiene un cursor explícito
 
-Muestra el nombre y apellidos de todos los empleados
+Muestra el nombre y apellidos de todos los empleados.
 
 ```console
 CREATE OR REPLACE PROCEDURE EJEMPLO2 
@@ -110,7 +110,7 @@ END;
 ```
 
 ## Crear un procedimiento almacenado con parámetro de entrada que contiene un cursor explícito
-Muestra el nombre y apellidos de todos los empleados del departamento pasado como parámetro
+Muestra el nombre y apellidos de todos los empleados del departamento pasado como parámetro.
 
 ```console
 CREATE OR REPLACE PROCEDURE EJEMPLO3 (NombreD IN departamento.NomDep%Type) 
@@ -119,13 +119,11 @@ IS
     CURSOR C1 IS SELECT NomEmp, ApeEmp FROM empleado E JOIN departamento D ON (E.CodDep=D.CodDep) WHERE NomDep LIKE NombreD ;
     NombreE empleado.NomEmp%TYPE; /*Toma el mismo tipo de datos que NomEmp*/
     ApellidosE empleado.ApeEmp%TYPE; /*Toma el mismo tipo de datos que ApeEmp*/
-   
 BEGIN
     /*Abrimos el cursor*/
     IF NOT C1%ISOPEN THEN
         OPEN C1;
     END IF;
-
    /*Recorremos el cursor, en este caso utilizamos otro tipo de bucle*/
     FETCH C1 INTO NombreE, ApellidosE;
     WHILE C1%FOUND
@@ -133,7 +131,6 @@ BEGIN
         DBMS_OUTPUT.PUT_LINE(NombreE||' ' ||ApellidosE); /*Muestro las columnas que deseo*/
         FETCH C1 INTO NombreE, ApellidosE;
     END LOOP;
-
     /*Cerramos el cursor*/
     CLOSE C1;
 END;
