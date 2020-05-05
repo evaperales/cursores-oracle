@@ -80,10 +80,11 @@ END;
 
 Muestra el nombre y apellidos de todos los empleados
 
+```console
 CREATE OR REPLACE PROCEDURE EJEMPLO2 
 IS
     CURSOR C1 IS SELECT * FROM empleado;
-    Datos empleado%ROWTYPE;
+    Datos empleado%ROWTYPE; /* Al recuperar la fila en Datos, los tipos de datos se infieran por defecto*/
 BEGIN
     /*Abrimos el cursor*/
     IF NOT C1%ISOPEN THEN
@@ -100,7 +101,50 @@ BEGIN
 END;
 ```
 
-## 
+## Ejecutar el procedimiento almacenado EJEMPLO2
 
+```console
+BEGIN
+   EJEMPLO2;
+END;
+```
+
+## Crear un procedimiento almacenado con parámetro de entrada que contiene un cursor explícito
+Muestra el nombre y apellidos de todos los empleados del departamento pasado como parámetro
+
+```console
+CREATE OR REPLACE PROCEDURE EJEMPLO3 (NombreD IN departamento.NomDep%Type) 
+/*Indicamos que el parámetro de entrada sea del mismo tipo de datos que NomDep*/
+IS
+    CURSOR C1 IS SELECT NomEmp, ApeEmp FROM empleado E JOIN departamento D ON (E.CodDep=D.CodDep) WHERE NomDep LIKE NombreD ;
+    NombreE empleado.NomEmp%TYPE; /*Toma el mismo tipo de datos que NomEmp*/
+    ApellidosE empleado.ApeEmp%TYPE; /*Toma el mismo tipo de datos que ApeEmp*/
+   
+BEGIN
+    /*Abrimos el cursor*/
+    IF NOT C1%ISOPEN THEN
+        OPEN C1;
+    END IF;
+
+   /*Recorremos el cursor, en este caso utilizamos otro tipo de bucle*/
+    FETCH C1 INTO NombreE, ApellidosE;
+    WHILE C1%FOUND
+    LOOP
+        DBMS_OUTPUT.PUT_LINE(NombreE||' ' ||ApellidosE); /*Muestro las columnas que deseo*/
+        FETCH C1 INTO NombreE, ApellidosE;
+    END LOOP;
+
+    /*Cerramos el cursor*/
+    CLOSE C1;
+END;
+```
+
+## Ejecutar el procedimiento almacenado EJEMPLO3
+
+```console
+BEGIN
+   EJEMPLO3 ('DEP1');
+END;
+```
 
 
