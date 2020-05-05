@@ -27,7 +27,7 @@ CREATE TABLE empleado
 
 ## Inserción datos en las tablas
 
-´´´console
+```console
 INSERT ALL 
 INTO departamento  VALUES (1,'DEP1') 
 INTO departamento  VALUES (2,'DEP2') 
@@ -42,6 +42,6 @@ INTO empleado  VALUES (4,'EMP4','APELLIDOS 4',2)
 INTO empleado  VALUES (5,'EMP5','APELLIDOS 5',3) 
 INTO empleado  VALUES (6,'EMP6','APELLIDOS 6',3) 
 SELECT * FROM dual;
-´´´
+```
 
 
