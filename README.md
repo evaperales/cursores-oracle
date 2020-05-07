@@ -60,7 +60,7 @@ Muestra el nombre del departamento cuyo código se pasa como parámetro.
 ```console
 CREATE OR REPLACE PROCEDURE EJEMPLO1 (Codigo IN NUMBER)
 IS 
-    Nom departamento.NomDep%TYPE; /* Declaración de la variable Nom del mismo tipo de datos que NomDep*/
+    Nom departamento.NomDep%TYPE; /*Declaración de la variable Nom del mismo tipo de datos que NomDep*/
 BEGIN
     SELECT NomDep INTO Nom FROM departamento WHERE CodDep = Codigo;
     IF SQL%FOUND THEN
@@ -73,7 +73,7 @@ END;
 
 ```console
 BEGIN
-   EJEMPLO1 (3);
+   EJEMPLO1(3);
 END;
 ```
 
@@ -85,7 +85,7 @@ Muestra el nombre y apellidos de todos los empleados.
 CREATE OR REPLACE PROCEDURE EJEMPLO2 
 IS
     CURSOR C1 IS SELECT * FROM empleado;
-    Datos empleado%ROWTYPE; /* Al recuperar la fila en Datos, todos los tipos de datos 
+    Datos empleado%ROWTYPE; /*Declaración de Datos. Al recuperar la fila en Datos, todos los tipos de datos 
                              se infieran por defecto de la tabla empleado*/
 BEGIN
     /*Abrimos el cursor*/
@@ -122,7 +122,7 @@ IS
                  FROM empleado E JOIN departamento D ON (E.CodDep=D.CodDep)
                  WHERE NomDep LIKE NombreD ;
     NombreE empleado.NomEmp%TYPE;     /*Declaración de la variable NombreE del mismo tipo de datos que NomEmp*/
-    ApellidosE empleado.ApeEmp%TYPE;  /* Declaración de la variable ApellidosE del mismo tipo de datos que ApeEmp*/
+    ApellidosE empleado.ApeEmp%TYPE;  /*Declaración de la variable ApellidosE del mismo tipo de datos que ApeEmp*/
 BEGIN
     /*Abrimos el cursor*/
     IF NOT C1%ISOPEN THEN
@@ -144,7 +144,7 @@ END;
 
 ```console
 BEGIN
-   EJEMPLO3 ('DEP1');
+   EJEMPLO3('DEP1');
 END;
 ```
 
