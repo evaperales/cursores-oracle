@@ -60,11 +60,11 @@ Muestra el nombre del departamento cuyo código se pasa como parámetro.
 ```console
 CREATE OR REPLACE PROCEDURE EJEMPLO1 (Codigo IN NUMBER)
 IS 
-    Nom departamento.NomDep%TYPE; /*Toma el mismo tipo de datos que NomDep*/
+    Nom departamento.NomDep%TYPE; /* Declaración de la variable Nom del mismo tipo de datos que NomDep*/
 BEGIN
     SELECT NomDep INTO Nom FROM departamento WHERE CodDep = Codigo;
     IF SQL%FOUND THEN
-        DBMS_OUTPUT.PUT_LINE(Nom); 
+        DBMS_OUTPUT.PUT_LINE(Nom); /*Mostramos el nombre del departamento*/
     END IF;
 END;
 ```
@@ -85,7 +85,8 @@ Muestra el nombre y apellidos de todos los empleados.
 CREATE OR REPLACE PROCEDURE EJEMPLO2 
 IS
     CURSOR C1 IS SELECT * FROM empleado;
-    Datos empleado%ROWTYPE; /* Al recuperar la fila en Datos, los tipos de datos se infieran por defecto*/
+    Datos empleado%ROWTYPE; /* Al recuperar la fila en Datos, todos los tipos de datos 
+                             se infieran por defecto de la tabla empleado*/
 BEGIN
     /*Abrimos el cursor*/
     IF NOT C1%ISOPEN THEN
@@ -95,7 +96,7 @@ BEGIN
     LOOP
          FETCH C1 INTO Datos;
          EXIT WHEN C1%NOTFOUND;
-         DBMS_OUTPUT.PUT_LINE(Datos.NomEmp||' ' ||Datos.ApeEmp); /*Muestro las columnas que deseamos*/
+         DBMS_OUTPUT.PUT_LINE(Datos.NomEmp||' ' ||Datos.ApeEmp); /*Mostramos las columnas que deseamos*/
     END LOOP;
     /*Cerramos el cursor*/
     CLOSE C1;
@@ -117,9 +118,11 @@ Muestra el nombre y apellidos de todos los empleados del departamento pasado com
 CREATE OR REPLACE PROCEDURE EJEMPLO3 (NombreD IN departamento.NomDep%Type) 
 /*Indicamos que el parámetro de entrada sea del mismo tipo de datos que NomDep*/
 IS
-    CURSOR C1 IS SELECT NomEmp, ApeEmp FROM empleado E JOIN departamento D ON (E.CodDep=D.CodDep) WHERE NomDep LIKE NombreD ;
-    NombreE empleado.NomEmp%TYPE; /*Toma el mismo tipo de datos que NomEmp*/
-    ApellidosE empleado.ApeEmp%TYPE; /*Toma el mismo tipo de datos que ApeEmp*/
+    CURSOR C1 IS SELECT NomEmp, ApeEmp 
+                 FROM empleado E JOIN departamento D ON (E.CodDep=D.CodDep)
+                 WHERE NomDep LIKE NombreD ;
+    NombreE empleado.NomEmp%TYPE;     /*Declaración de la variable NombreE del mismo tipo de datos que NomEmp*/
+    ApellidosE empleado.ApeEmp%TYPE;  /* Declaración de la variable ApellidosE del mismo tipo de datos que ApeEmp*/
 BEGIN
     /*Abrimos el cursor*/
     IF NOT C1%ISOPEN THEN
@@ -129,7 +132,7 @@ BEGIN
     FETCH C1 INTO NombreE, ApellidosE;
     WHILE C1%FOUND
     LOOP
-        DBMS_OUTPUT.PUT_LINE(NombreE||' ' ||ApellidosE); /*Muestro las columnas que deseo*/
+        DBMS_OUTPUT.PUT_LINE(NombreE||' ' ||ApellidosE); /*Mostramos las columnas que deseamos*/
         FETCH C1 INTO NombreE, ApellidosE;
     END LOOP;
     /*Cerramos el cursor*/
